@@ -9,15 +9,11 @@ $token = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes
 $header = @{authorization = "Basic $token" }
 
 $queryString = "api-version=6.0"
+# TODO: Create a second work item type in a hierarchichy
 
-# TODO: Read this info from jsonsource/WorkItemTypes.json
-$workItemTypeJSON = 
-[PSCustomObject]@{name  = "Change Request"
-    description         = "New Work Item Type From REST API Demo"
-    color               = "f6546a"
-    icon                = "icon_airplane"
-    isDisabled          = "false"
-} | ConvertTo-Json
+# Read work item tracking field info from jsonsource/WorkItemTypes.json
+$workItemTypeJSON = Get-Content -Path ./jsonsource/WorkItemTypes.json | ConvertFrom-Json
+$workItemTypeJSON = $workItemTypeJSON | ConvertTo-Json
 
 $createWorkItemTypeURL = "$orgUrl/_apis/work/processes/$processId/workitemtypes?$queryString"
 $response = Invoke-RestMethod -Uri $createWorkItemTypeURL -Method Post -ContentType "application/json" -Headers $header -Body ($workItemTypeJSON )

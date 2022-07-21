@@ -18,13 +18,11 @@ $processName = $processName.Replace("-", "")
 $referenceName = "SuperSpecialProcess" + $guid
 $referenceName = $referenceName.replace("-", "")
 
-# TODO: Read this info from jsonsource/Process.json
-$processJSON = 
-[PSCustomObject]@{name                  = "$($processName)"
-    parentProcessTypeId = "adcc42ab-9882-485e-a3ed-7678f01f66bc"
-    referenceName       = "$($referenceName)"
-    description         = "New Process From REST API Demo"
-} | ConvertTo-Json
+# Read Process info from jsonsource/Process.json
+$processJSON = Get-Content -Path './jsonsource/Process.json' | ConvertFrom-Json
+$processJSON.name = $processName
+$processJSON.referenceName = $referenceName
+$processJSON = $processJSON | ConvertTo-Json
 
 $createProcessURL = "$orgUrl/_apis/work/processes?$queryString"
 $response = Invoke-RestMethod -Uri $createProcessURL -Method Post -ContentType "application/json" -Headers $header -Body ($processJSON )

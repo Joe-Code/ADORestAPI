@@ -16,5 +16,5 @@ $processResult = &"C:\Repos\AzureDevOpsRestApiRepo\scripts\CreateProcess.ps1" -o
 # Create Work Item Types
 $workItemTypeResult = &"C:\Repos\AzureDevOpsRestApiRepo\scripts\CreateWorkItemTypes.ps1" -orgUrl $orgUrl -pat $pat -processId $processResult.typeId
 
-#Create Work Item Type Field
+#Create Work Item Tracking Field
 &"C:\Repos\AzureDevOpsRestApiRepo\scripts\CreateWorkItemTrackingField.ps1" -orgUrl $orgUrl -pat $pat -processId $processResult.typeId -workItemTypeReferenceName $workItemTypeResult.referenceName
